@@ -79,10 +79,21 @@
 			<string>variable.language.c++</string>
 		</dict>
 		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.template.c++</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.c++</string>
+				</dict>
+			</dict>
 			<key>match</key>
-			<string>\btemplate\b\s*</string>
-			<key>name</key>
-			<string>storage.type.template.c++</string>
+			<string>\b(template)\b\s*(?:&lt;(class|typename)[^&gt;]+&gt;)?</string>
 		</dict>
 		<dict>
 			<key>match</key>
@@ -111,10 +122,52 @@
 		<dict>
 			<key>begin</key>
 			<string>(?x)
+			(?:  ^                                 # begin-of-line
+			  |  (?: (?&lt;!else|new|=) )             #  or word + space before name
+			)
+			((?:[A-Za-z_][A-Za-z0-9_]*(?:&lt;[^&gt;]+&gt;)?::)*+[A-Za-z_][A-Za-z0-9_]*) # actual name
+			 \s*(\()                           # start bracket or end-of-line
+		</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function.c++</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.parameters.c</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>\)</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.parameters.c</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>meta.function.templated.c++</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>$base</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>(?x)
     				(?:  ^                                 # begin-of-line
     				  |  (?: (?&lt;!else|new|=) )             #  or word + space before name
     				)
-    				((?:[A-Za-z_][A-Za-z0-9_]*::)*+~[A-Za-z_][A-Za-z0-9_]*) # actual name
+    				((?:[A-Za-z_][A-Za-z0-9_]*(?:&lt;[^&gt;]+&gt;)?::)*+~[A-Za-z_][A-Za-z0-9_]*) # actual name
     				 \s*(\()                           # start bracket or end-of-line
     			</string>
 			<key>beginCaptures</key>
