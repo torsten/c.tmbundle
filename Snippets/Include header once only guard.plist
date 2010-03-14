@@ -3,7 +3,8 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>#ifndef ${1:`#!/usr/bin/env ruby -wKU -riconv
+	<string>#pragma once
+#ifndef ${1:`#!/usr/bin/env ruby -wKU -riconv
 name = ENV["TM_FILENAME"] || "untitled"
 name = Iconv.iconv("ASCII//TRANSLIT", "UTF-8", name).first
 name = name.gsub(/[^a-z0-9]+/i, "_")
